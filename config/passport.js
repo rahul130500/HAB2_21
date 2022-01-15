@@ -33,8 +33,7 @@ passport.use(
     {
       clientID: OUTLOOK_CLIENT_ID,
       clientSecret: OUTLOOK_CLIENT_SECRET,
-      callbackURL:
-        "https://habiitg.herokuapp.com/hab/auth/azureadoauth2/callback",
+      callbackURL: "http://localhost:8081/hab/auth/azureadoauth2/callback",
     },
     async (accessToken, refresh_token, params, profile, done) => {
       try {

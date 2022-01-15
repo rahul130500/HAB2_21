@@ -1,5 +1,6 @@
 const express = require("express");
 const mongoose = require("mongoose");
+const compression = require("compression");
 require("dotenv").config();
 
 const methodOverride = require("method-override");
@@ -13,24 +14,31 @@ const helmet = require("helmet");
 const url = "mongodb://localhost/hab2";
 //const url = process.env.MONGO_URI;
 const app = express();
-const PORT = process.env.PORT || 8080;
+
+// compress responses
+app.use(compression());
+
+const PORT = process.env.PORT;
 
 const passportSetup = require("./config/passport");
 
 require("dotenv").config();
-const { MONGO_URX } = process.env;
+const { MONGO_URI} = process.env;
 
-mongoose
-  .connect(MONGO_URX, {
-    useUnifiedTopology: true,
-    useNewUrlParser: true,
-    useCreateIndex: true,
-    useFindAndModify: false,
-  })
-  .then(() => console.log("Successful DB connection"))
-  .catch((err) => console.error("DB connection fail"));
+mongoose.connect(MONGO_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  useCreateIndex: true,
+});
+//checking whether connected successfully or not
 
-const userRoutes = require("./routes/user.routes");
+const db = mongoose.connection;
+db.on("error", console.error.bind(console.log("connecting...")));
+db.once("open", () => {
+  console.log("database connected");
+});
+
+const userRoutes = require("./routes/userupdated.routes");
 const adminRoutes = require("./routes/admin.routes");
 const noticeRoutes = require("./routes/notice.routes");
 const functionaryRoutes = require("./routes/functionary.routes");

@@ -12,7 +12,7 @@ router.get(
   announcementController.addAnnouncementForm
 );
 
-router.post("/", isLoggedIn, isAdmin, announcementController.postAnnouncement);
+router.post("/", isLoggedIn, isAdmin,announcementController.postAnnouncement);
 
 router.post(
   "/find",

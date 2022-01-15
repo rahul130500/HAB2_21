@@ -15,7 +15,7 @@ const formController = require("../controllers/form.controller");
 
 const upload = multer({ storage: storage });
 
-router.get("/", isLoggedIn, isAdmin, formController.getForms);
+router.get("/",isLoggedIn, isAdmin,  formController.getForms);
 
 router.get("/add", isLoggedIn, isAdmin, formController.addFormForm);
 

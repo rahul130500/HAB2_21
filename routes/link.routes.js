@@ -15,8 +15,8 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
-router.get("/", isLoggedIn, isAdmin, linkController.getAllLinks);
-router.get("/add", isLoggedIn, isAdmin, linkController.addLinkForm);
+router.get("/",isLoggedIn, isAdmin,  linkController.getAllLinks);
+router.get("/add",isLoggedIn, isAdmin, linkController.addLinkForm);
 router.post("/", isLoggedIn, isAdmin, linkController.postLink);
 router.get("/:link_id", isLoggedIn, isAdmin, linkController.getEditForm);
 router.put("/:link_id", isLoggedIn, isAdmin, linkController.editLink);
