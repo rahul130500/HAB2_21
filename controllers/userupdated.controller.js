@@ -132,7 +132,8 @@ exports.getLinks = async (req, res) => {
 
 exports.getOneHostel = async (req, res) => {
   try {
-    const hostel = await Hostel.findById(req.params.hostel_id);
+    const temp = req.params.hostel_name;
+    const hostel = await Hostel.findOne({ name: req.params.hostel_name });
     const hostels = await Hostel.find({});
     const name = hostel.name;
     const notices = await HostelNotice.find({ hostel: name }).sort("-creation");

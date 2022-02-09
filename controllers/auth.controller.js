@@ -56,7 +56,7 @@ exports.logout = (req, res) => {
 };
 
 exports.getUsers = async (req, res) => {
-  const users = await User.find({});
+  const users = await User.find({}).sort();
   return res.render("users/index", { users });
 };
 

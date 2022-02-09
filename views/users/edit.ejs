@@ -32,9 +32,11 @@
                         <label class="block text-sm text-gray-600" for="description">Hostel Name</label>
                         <select class="w-full px-5 py-4 text-gray-700 bg-gray-200 rounded" id="hostel"
                             name="hostel" >
+                                <option value="NA">Not Hostel Admin</option>
                                 <% hostels.forEach((hostel, i)=>{ %>
                                     <option value="<%=hostel.name%>"><%=hostel.name%></option>
-                                <% }) %></select>
+                                <% }) %>
+                            </select>
                     </div>
                     <div class="mt-6">
                         <button class="px-4 py-1 text-white font-light tracking-wider bg-gray-900 rounded"

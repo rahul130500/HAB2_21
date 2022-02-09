@@ -61,7 +61,7 @@
 const express = require("express");
 const router = express.Router({ mergeParams: true });
 const passport = require("passport");
-const { isLoggedIn, isAdmin } = require("../middleware");
+const { isLoggedIn, isAdmin, adminDecider } = require("../middleware");
 const User = require("../models/user");
 const authController = require("../controllers/auth.controller");
 

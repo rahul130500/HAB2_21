@@ -41,3 +41,11 @@ exports.isHostelAdmin = function (req, res, next) {
     return res.redirect("/hab/admin");
   }
 };
+
+exports.adminDecider = function (req, res, next) {
+  if (req.user.isHostelAdmin) {
+    return res.redirect("/hab/admin/hostel");
+  } else {
+    return next();
+  }
+};

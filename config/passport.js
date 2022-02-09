@@ -16,7 +16,8 @@ const User = require("../models/user");
 
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
-const { OUTLOOK_CLIENT_ID, OUTLOOK_CLIENT_SECRET } = process.env;
+const { OUTLOOK_CLIENT_ID, OUTLOOK_CLIENT_SECRET, OUTLOOK_CALLBACK } =
+  process.env;
 
 passport.serializeUser((user, done) => {
   done(null, user.id);
@@ -33,7 +34,7 @@ passport.use(
     {
       clientID: OUTLOOK_CLIENT_ID,
       clientSecret: OUTLOOK_CLIENT_SECRET,
-      callbackURL: "http://localhost:8081/hab/auth/azureadoauth2/callback",
+      callbackURL: OUTLOOK_CALLBACK,
     },
     async (accessToken, refresh_token, params, profile, done) => {
       try {
