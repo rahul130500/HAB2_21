@@ -67,7 +67,7 @@ const authController = require("../controllers/auth.controller");
 
 router.get("/login", authController.getLoginPage);
 
-router.get("/", isLoggedIn, async (req, res) => {
+router.get("/", isLoggedIn, adminDecider, async (req, res) => {
   res.render("admin");
 });
 
