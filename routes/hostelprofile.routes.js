@@ -240,7 +240,7 @@ router.post(
   "/form",
   isLoggedIn,
   isHostelAdmin,
-  upload.single("mess"),
+  upload.single("form"),
   hostelController.postForm
 );
 
@@ -252,7 +252,7 @@ router.put(
   "/form/:form_id",
   isLoggedIn,
   isHostelAdmin,
-  upload.single("mess"),
+  upload.single("form"),
   hostelController.editForm
 );
 

@@ -230,7 +230,6 @@ exports.deleteWeb = async (req, res) => {
 
 //Notice Controllers
 
-
 exports.getNotices = async (req, res) => {
   try {
     const notices = await Notice.find({ hostel: req.user.hostel });
@@ -354,7 +353,6 @@ exports.deleteNotice = async (req, res) => {
 
 // Event Controllers
 
-
 exports.getEvents = async (req, res) => {
   try {
     const events = await Event.find({ hostel: req.user.hostel });
@@ -477,8 +475,6 @@ exports.deleteEvent = async (req, res) => {
 };
 
 //HMC Controllers
-
-
 
 exports.getHmcDetails = async (req, res) => {
   try {
@@ -642,7 +638,7 @@ exports.getFormInfo = async (req, res) => {
     const form = await HoForm.find({ hostel: req.user.hostel });
 
     form.sort(compare);
-    return res.render("hostelAdmin/mess/index", { form });
+    return res.render("hostelAdmin/form/index", { form });
   } catch (error) {
     console.log(error.message);
   }
@@ -650,7 +646,7 @@ exports.getFormInfo = async (req, res) => {
 
 exports.addForm = async (req, res) => {
   try {
-    return res.render("hostelAdmin/mess/add");
+    return res.render("hostelAdmin/form/add");
   } catch (error) {
     console.log(error.message);
   }
@@ -673,10 +669,10 @@ exports.postForm = async (req, res) => {
       hostel: req.user.hostel,
     }).save();
     if (!newForm) {
-      req.flash("error", "Unable to add new mess data");
+      req.flash("error", "Unable to add new form data");
       res.redirect("/hab/admin/hostel/form/add");
     }
-    req.flash("success", "Successfully added new mess data");
+    req.flash("success", "Successfully added new form data");
     return res.redirect("/hab/admin/hostel/form");
   } catch (error) {
     console.log(error.message);
@@ -687,7 +683,7 @@ exports.getEditForm = async (req, res) => {
   try {
     const form = await HoForm.findById(req.params.form_id);
 
-    return res.render("hostelAdmin/mess/edit", { form });
+    return res.render("hostelAdmin/form/edit", { form });
   } catch (error) {
     console.log(error.message);
   }
@@ -705,7 +701,10 @@ exports.editForm = async (req, res) => {
       data = { title, number, path, hostel: req.user.hostel };
     }
 
-    const updatedForm = await HoForm.findByIdAndUpdate(req.params.form_id, data);
+    const updatedForm = await HoForm.findByIdAndUpdate(
+      req.params.form_id,
+      data
+    );
 
     if (!updatedForm) {
       req.flash("error", "Unable to edit form data");
@@ -741,7 +740,7 @@ exports.deleteForm = async (req, res) => {
       fs.unlinkSync(`uploads/hostel_files/${form.path}`);
       console.log("successfully deleted!");
     }
-    await Form.findByIdAndRemove(id);
+    await HoForm.findByIdAndRemove(id);
     req.flash("success", "Successfully deleted form data");
     return res.redirect("/hab/admin/hostel/form");
   } catch (err) {
