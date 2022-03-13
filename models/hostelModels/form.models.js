@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const MessSchema = new mongoose.Schema({
+const HoFormSchema = new mongoose.Schema({
   title: { type: String, required: true },
   hostel: { type: String, required: true },
   number: { type: String, default: "00" },
@@ -8,4 +8,4 @@ const MessSchema = new mongoose.Schema({
   creation: { type: Date, default: Date.now },
 });
 
-module.exports = mongoose.model("Mess", MessSchema);
+module.exports = mongoose.model("HoForm", HoFormSchema);
