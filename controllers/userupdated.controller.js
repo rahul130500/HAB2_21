@@ -16,7 +16,7 @@ const BASEURL = process.env.BASEURL;
 const HostelNotice = require("../models/hostelModels/notice");
 const HostelWebsite = require("../models/hostelModels/personalweb.models");
 const HMC = require("../models/hostelModels/hmc.models");
-const HostelForm = require("../models/hostelModels/mess");
+const HostelForm = require("../models/hostelModels/form.models");
 const HostelEvent = require("../models/hostelModels/event");
 
 exports.getHome = async (req, res) => {

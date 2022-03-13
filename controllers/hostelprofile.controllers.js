@@ -1,8 +1,11 @@
 const About = require("../models/hostelModels/about.models");
 const hmcDetail = require("../models/hostelModels/hmc.models");
 const fs = require("fs");
-const Mess = require("../models/hostelModels/mess");
+const HoForm = require("../models/hostelModels/form.models");
 const personalweb = require("../models/hostelModels/personalweb.models");
+const Notice = require("../models/hostelModels/notice");
+const Event = require("../models/hostelModels/event");
+const HmcDetail = require("../models/hostelModels/hmc.models");
 
 exports.getAboutDetails = async (req, res) => {
   try {
@@ -166,7 +169,7 @@ exports.getWeb = async (req, res) => {
   });
 };
 
-exports.addpersonalweb = async (req, res) => {
+exports.addPersonalWeb = async (req, res) => {
   try {
     const link = req.body.link;
     const website = await new personalweb({
@@ -226,7 +229,7 @@ exports.deleteWeb = async (req, res) => {
 };
 
 //Notice Controllers
-const Notice = require("../models/hostelModels/notice");
+
 
 exports.getNotices = async (req, res) => {
   try {
@@ -350,7 +353,7 @@ exports.deleteNotice = async (req, res) => {
 };
 
 // Event Controllers
-const Event = require("../models/hostelModels/event");
+
 
 exports.getEvents = async (req, res) => {
   try {
@@ -475,7 +478,7 @@ exports.deleteEvent = async (req, res) => {
 
 //HMC Controllers
 
-const HmcDetail = require("../models/hostelModels/hmc.models");
+
 
 exports.getHmcDetails = async (req, res) => {
   try {
@@ -634,18 +637,18 @@ exports.deleteHmcDetail = async (req, res) => {
 
 //Form Controller
 
-exports.getMessInfo = async (req, res) => {
+exports.getFormInfo = async (req, res) => {
   try {
-    const mess = await Mess.find({ hostel: req.user.hostel });
+    const form = await HoForm.find({ hostel: req.user.hostel });
 
-    mess.sort(compare);
-    return res.render("hostelAdmin/mess/index", { mess });
+    form.sort(compare);
+    return res.render("hostelAdmin/mess/index", { form });
   } catch (error) {
     console.log(error.message);
   }
 };
 
-exports.addMessForm = async (req, res) => {
+exports.addForm = async (req, res) => {
   try {
     return res.render("hostelAdmin/mess/add");
   } catch (error) {
@@ -653,7 +656,7 @@ exports.addMessForm = async (req, res) => {
   }
 };
 
-exports.postMess = async (req, res) => {
+exports.postForm = async (req, res) => {
   try {
     var { title, number, link } = req.body;
 
@@ -663,13 +666,13 @@ exports.postMess = async (req, res) => {
       return res.redirect("/hab/admin/hostel/form/add");
     }
     //console.log(path);
-    const newMess = await new Mess({
+    const newForm = await new HoForm({
       title,
       number,
       path,
       hostel: req.user.hostel,
     }).save();
-    if (!newMess) {
+    if (!newForm) {
       req.flash("error", "Unable to add new mess data");
       res.redirect("/hab/admin/hostel/form/add");
     }
@@ -680,17 +683,17 @@ exports.postMess = async (req, res) => {
   }
 };
 
-exports.getMessEditForm = async (req, res) => {
+exports.getEditForm = async (req, res) => {
   try {
-    const mess = await Mess.findById(req.params.mess_id);
+    const form = await HoForm.findById(req.params.form_id);
 
-    return res.render("hostelAdmin/mess/edit", { mess });
+    return res.render("hostelAdmin/mess/edit", { form });
   } catch (error) {
     console.log(error.message);
   }
 };
 
-exports.editMess = async (req, res) => {
+exports.editForm = async (req, res) => {
   try {
     var { title, number, link } = req.body;
 
@@ -702,24 +705,24 @@ exports.editMess = async (req, res) => {
       data = { title, number, path, hostel: req.user.hostel };
     }
 
-    const updatedMess = await Mess.findByIdAndUpdate(req.params.mess_id, data);
+    const updatedForm = await HoForm.findByIdAndUpdate(req.params.form_id, data);
 
-    if (!updatedMess) {
-      req.flash("error", "Unable to edit mess data");
+    if (!updatedForm) {
+      req.flash("error", "Unable to edit form data");
       return res.redirect("/hab/admin/hostel/form");
     }
-    req.flash("success", "Successfully editted mess data");
+    req.flash("success", "Successfully editted form data");
     return res.redirect("/hab/admin/hostel/form");
   } catch (error) {
     console.log(error.message);
   }
 };
 
-exports.getOneMess = async (req, res) => {
+exports.getOneForm = async (req, res) => {
   try {
-    const id = req.params.mess_id;
-    const mess = await Mess.findById(id);
-    const filePath = "uploads/hostel_files/" + mess.path;
+    const id = req.params.form_id;
+    const form = await HoForm.findById(id);
+    const filePath = "uploads/hostel_files/" + form.path;
     console.log(filePath);
     fs.readFile(filePath, (err, data) => {
       res.contentType("application/pdf");
@@ -730,16 +733,16 @@ exports.getOneMess = async (req, res) => {
   }
 };
 
-exports.deleteMess = async (req, res) => {
+exports.deleteForm = async (req, res) => {
   try {
-    const id = req.params.mess_id;
-    const mess = await Mess.findById(id);
-    if (mess.path.indexOf("https://") == -1) {
-      fs.unlinkSync(`uploads/hostel_files/${mess.path}`);
+    const id = req.params.form_id;
+    const form = await HoForm.findById(id);
+    if (form.path.indexOf("https://") == -1) {
+      fs.unlinkSync(`uploads/hostel_files/${form.path}`);
       console.log("successfully deleted!");
     }
-    await Mess.findByIdAndRemove(id);
-    req.flash("success", "Successfully deleted mess data");
+    await Form.findByIdAndRemove(id);
+    req.flash("success", "Successfully deleted form data");
     return res.redirect("/hab/admin/hostel/form");
   } catch (err) {
     // handle the error
