@@ -15,6 +15,14 @@ Install dependencies
 ```
   npm install
 ```
+Create a .env file
+```
+OUTLOOK_CLIENT_ID="",
+OUTLOOK_CLIENT_SECRET="",
+OUTLOOK_CALLBACK="",
+MONGO_URI=,
+PORT=
+```
 Start the server
 ```
   node app.js
